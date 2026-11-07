@@ -1,0 +1,9 @@
+.carrito {
+	position:	fixed;
+	right:		0;
+	left:		auto;
+	width:		400px;
+	@media (max-width:	750px) {
+		position:	relative;
+	}
+}
