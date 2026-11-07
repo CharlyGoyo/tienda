@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	let inputs = new Map();
 	const inputs_producto = document.querySelectorAll('.input_producto');
 	const carritoform = document.querySelector('.carrito');
+	const urlParams = new URLSearchParams(window.location.search);
 
 	const updateInputs = () => {
 		inputs.forEach((arr, product) => {
@@ -49,13 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		updateInputs();
 	};
 
-	if (!carrito || carrito === 'undefined') {
+	if (!carrito || carrito === 'undefined' || urlParams.get('success') === 'true') {
 		carrito = {
 			"producto1":	0,
 			"producto2":	0,
 			"producto3":	0,
 			"producto4":	0
 		};
+		sessionStorage.setItem('carrito', JSON.stringify(carrito));
 	}
 	else {
 		carrito = JSON.parse(carrito);
