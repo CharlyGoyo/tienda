@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang="en-ES">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>${title}</title>
+		<meta name="description" content="${description}">
+		<link rel="stylesheet" href="/styles.css" type="text/css">
+		<link rel="canonical" content="${canonical}">
+		<script src="/compra.js"></script> 
+	</head>
+
+	<body>
+		<form class="carrito" method="POST" action="/checkout">
+			<h2>Carrito de la compra</h2>
+			<input type="submit" value="COMPRA YA TU DOSIS DE FELICIDAD">
+		</form>
+		%{contentfile}
+	</body>
+</html>
