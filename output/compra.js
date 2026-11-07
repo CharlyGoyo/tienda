@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-	let carrito = sessionStorage.getItem('carrito');
+	let carrito = localStorage.getItem('carrito');
 	let inputs = new Map();
 	const inputs_producto = document.querySelectorAll('.input_producto');
 	const carritoform = document.querySelector('.carrito');
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (!inputs.has(name)) {
 			inputs.set(name, [null, null, null]);
 		}
-		sessionStorage.setItem('carrito', JSON.stringify(carrito));
+		localStorage.setItem('carrito', JSON.stringify(carrito));
 		updateInputs();
 	};
 
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			"producto3":	0,
 			"producto4":	0
 		};
-		sessionStorage.setItem('carrito', JSON.stringify(carrito));
+		localStorage.setItem('carrito', JSON.stringify(carrito));
 	}
 	else {
 		carrito = JSON.parse(carrito);

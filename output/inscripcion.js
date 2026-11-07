@@ -5,9 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
 	const correoInputs = document.querySelectorAll('[data-input-type="correo"]');
 	const almenosunoInputs = document.querySelectorAll('[data-input-type="almenosuno"]');
 	const errormsg = document.querySelector('.error');
+	const remoteerrormsg = document.querySelector('.errorremote');
 	let almenosuno = new Map();
 	let correctos = new Map();
 	let errores = new Map();
+
+	if (urlParams.get('inscrito') === 'true') {
+		remoteerrormsg.style.display = 'block';
+		remoteerrormsg.style.color = 'green';
+		remoteerrormsg.textContent = 'Ya estás inscrito :D (aún no va el correo automático, pero ya estás en la DB :D).';
+	}
+	else if (urlParams.get('inscrito') === 'false') {
+		remoteerrormsg.style.display = 'block';
+		remoteerrormsg.style.color = 'red';
+		remoteerrormsg.textContent = 'Error en el servidor. Mira a ver qué has tocao.';
+	}
 
 	fillInputs.forEach((input) => {
 		correctos.set(input.name, false);
@@ -87,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	const checkCorrecto = () => {
+		remoteerrormsg.style.display = 'none';
 		inscriInput.disabled = false;
 		for (const valor of correctos.values()) {
 			if (valor !== true){
