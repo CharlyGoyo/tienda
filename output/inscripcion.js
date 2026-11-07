@@ -1,74 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const urlParams = new URLSearchParams(window.location.search);
+	const inscriInput = document.getElementById('inscribirse');
+	const fillInputs = document.querySelectorAll('[data-input-type="fill"]');
+	const correoInputs = document.querySelectorAll('[data-input-type="correo"]');
+	const almenosunoInputs = document.querySelectorAll('[data-input-type="almenosuno"]');
+	const errormsg = document.querySelector('.error');
+	let almenosuno = new Map();
+	let correctos = new Map();
+	let errores = new Map();
 
-	const updateInputs = () => {
-		inputs.forEach((arr, product) => {
-			if (carrito[product] == null || carrito[product] < 1) {
-				if (arr[0] != null) {
-					arr[0].value = 0;
-				}
-				/*elimina el input del carrito y el h3 de arriba*/
-				if (arr[1] != null) {
-					arr[1].remove();
-					arr[2].remove();
-					console.log(arr[1]);
-					arr[1] = null;
-					arr[2] = null;
-				}
+	fillInputs.forEach((input) => {
+		correctos.set(input.name, false);
+		input.addEventListener('blur', (e) => {
+			if(e.target.value == '') {
+				correctos.set(input.name, false);
+				input.style.borderColor = 'red';
+				errores.set(input.name, `te falta el ${input.name} bro`);
 			}
 			else {
-				if (arr[1] == null) {
-					/*añade el input del carrito y el h3 de arriba*/
-					arr[2] = carritoform.appendChild(document.createElement('h3'));
-					arr[2].textContent = product + ':'
-
-					arr[1] = carritoform.appendChild(document.createElement('input'));
-					arr[1].min = 0;
-					arr[1].name = product;
-					arr[1].type = "number";
-					arr[1].addEventListener('change', (input) => {updateCarrito(input.target.name, input.target.value)});
-				}
-				arr[1].value = carrito[product];
-				if (arr[0] != null) {
-					arr[0].value = carrito[product];
-				}
+				correctos.set(input.name, true);
+				input.style.borderColor = 'green';
+				errores.delete(input.name);
 			}
+			actualizaError();
+			checkCorrecto();
 		});
-	};
+	});
 
-	const updateCarrito = (name, value) => {
-		console.log("carrito uptadeado");
-		carrito[name] = value;
-		if (!inputs.has(name)) {
-			inputs.set(name, [null, null, null]);
+	correoInputs.forEach((input) => {
+		correctos.set(input.name, false);
+		input.addEventListener('blur', (e) => {
+			if(e.target.value == '' || e.target.checkValidity() === false) {
+				correctos.set(input.name, false);
+				input.style.borderColor = 'red';
+				errores.set(input.name, 'el correo no es válido bro');
+			}
+			else {
+				correctos.set(input.name, true);
+				input.style.borderColor = 'green';
+				errores.delete(input.name);
+			}
+			actualizaError();
+			checkCorrecto();
+		});
+	});
+
+	almenosunoInputs.forEach((input) => {
+		almenosuno.set(input.name, false);
+		correctos.set(input.name, false);
+		correctos.set(input.dataset.inputType, false);
+		input.addEventListener('change', (e) => {
+			correctos.set(input.name, true);
+			if(e.target.value == "si") {
+				almenosuno.set(input.name, true);
+			}
+			else {
+				almenosuno.set(input.name, false);
+			}
+			let hayalmenosuno = false;
+			almenosuno.forEach((valor, _) => {
+				if (valor === true) {
+					hayalmenosuno = true;
+				}
+			});
+			if (hayalmenosuno === true) {
+				correctos.set(input.dataset.inputType, true);
+				errores.delete(input.dataset.inputType);
+			}
+			else {
+				correctos.set(input.dataset.inputType, false);
+				errores.set(input.dataset.inputType, 'O te vacunas o pillas un seguro bro');
+			}
+			actualizaError();
+			checkCorrecto();
+		});
+	});
+
+	const actualizaError = () => {
+		if (errores.size === 0) {
+			errormsg.style.display = 'none';
 		}
-		sessionStorage.setItem('carrito', JSON.stringify(carrito));
-		updateInputs();
-	};
-
-	if (!carrito || carrito === 'undefined' || urlParams.get('success') === 'true') {
-		carrito = {
-			"producto1":	0,
-			"producto2":	0,
-			"producto3":	0,
-			"producto4":	0
-		};
-		sessionStorage.setItem('carrito', JSON.stringify(carrito));
-	}
-	else {
-		carrito = JSON.parse(carrito);
+		else {
+			errormsg.style.display = 'block';
+			errormsg.textContent = Array.from(errores.entries()).at(-1)[1];
+		}
 	}
 
-	Object.entries(carrito).forEach(([clave, valor]) => {
-		inputs.set(clave, [null, null, null])
-	});
-	inputs_producto.forEach((input) => {
-		inputs.set(input.name, [input, null, null]);
-		input.addEventListener('change', (input) => {updateCarrito(input.target.name, input.target.value)});
-	});
-
-	updateInputs();
-	window.addEventListener('focus', () => {
-		updateInputs();
-	});
+	const checkCorrecto = () => {
+		inscriInput.disabled = false;
+		for (const valor of correctos.values()) {
+			if (valor !== true){
+				inscriInput.disabled = true;
+			}
+		}
+	}
 });

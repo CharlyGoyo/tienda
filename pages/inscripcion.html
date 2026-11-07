@@ -5,40 +5,41 @@
 			<h2>Formulario de inscripción:</h2>
 			<label>
 				Nombre:
-				<input type="text">
+				<input data-input-type="fill" type="text" name="nombre">
 			</label>
 			<label>
 				Apellido 1:
-				<input type="text">
+				<input data-input-type="fill" type="text" name="apellido1">
 			</label>
 			<label>
 				Apellido 2:
-				<input type="text">
+				<input data-input-type="fill" type="text" name="apellido2">
 			</label>
 			<label>
 				<br>
 				Correo (que sea de verdad que si no no te llega xd):
-				<input type="text">
+				<input data-input-type="correo" type="email" name="correo">
 			</label>
 			<p>Tienes la vacuna del dengue?:</p>
 			<label>
 				Sí
-				<input type="radio" name="vacuna" value="si">
+				<input data-input-type="almenosuno" type="radio" name="vacuna" value="si">
 			</label>
 			<label>
 				No
-				<input type="radio" name="vacuna" value="no">
+				<input data-input-type="almenosuno" type="radio" name="vacuna" value="no">
 			</label>
 			<p>Tienes seguro médico?</p>
 			<label>
 				Sí
-				<input type="radio" name="seguro" value="si">
+				<input data-input-type="almenosuno" type="radio" name="seguro" value="si">
 			</label>
 			<label>
 				No
-				<input type="radio" name="seguro" value="no">
+				<input data-input-type="almenosuno" type="radio" name="seguro" value="no">
 			</label>
 			<strong><br>Si no tienes ni seguro ni vacuna no te dejamos venir eh<br></strong>
-			<input type="submit" value="INSCRIBIRSE">
+			<p><b class="error" style="display: none; color: red;">No hay errores de momento</b></p>
+			<input id="inscribirse" type="submit" value="INSCRIBIRSE" disabled=true>
 		</form>
 		<a href="/index">Vuelve a la tienda</a>
