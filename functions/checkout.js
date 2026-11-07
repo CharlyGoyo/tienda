@@ -11,8 +11,8 @@ export async function onRequestPost(context) {
 
 	let params = new URLSearchParams({
 		mode:							'payment',
-		success_url:					`${url}/donaciones?success=true`,
-		cancel_url:						`${url}/donaciones?success=false`,
+		success_url:					`${url}/?success=true`,
+		cancel_url:						`${url}?success=false`,
 		locale:							'auto',
 	});
 
